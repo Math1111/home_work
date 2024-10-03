@@ -9,9 +9,10 @@ while da!=3:
     if login==correct_login and password==correct_password:
         print("Вы успешно вошли в аккаунт")
         break
-    elif:
+    else:
         da+=1
-        print('Попробуйте ещё раз')
+        if da==3:
+            print('Попробуйте ещё раз')
 if da == 3:
     print('Попробуйте через пол часа')
 
