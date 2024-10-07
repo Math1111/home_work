@@ -22,8 +22,8 @@ def load_game(event):
     with open('save.dat', 'rb') as f:
         data = load(f)
         x1, x2 = data
-        canvas.coords(pllayer1_id, x1, y1, x1+player_size, y1+player_size)
-        canvas.coords(pllayer2_id, x2, y2, x2 + player_size, y2 + player_size)
+        canvas.coords(player1_id, x1, y1, x1+player_size, y1+player_size)
+        canvas.coords(player2_id, x2, y2, x2 + player_size, y2 + player_size)
         set_status('Загружено')
 
 def key_handler(event):
