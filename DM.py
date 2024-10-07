@@ -41,7 +41,7 @@ def key_handler(event):
     if event.keycode == KEY_FORWARD1:
         canvas.move(player1_id, SPEED, 0)
     elif event.keycode == KEY_FORWARD2:
-        canvas.move(player1_id, SPEED, 0)
+        canvas.move(player2_id, SPEED, 0)
 
     check_finish()
 
