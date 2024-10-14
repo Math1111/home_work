@@ -12,5 +12,4 @@ intersection1 = hb1.intersects(hb2)
 intersection2 = hb1.intersects(hb3)
 intersection3 = hb2.intersects(hb3)
 
-print(f'Первый и второй: {intersection1}, первый и третий: {intersection2}, '
-      f'второй и третий: {intersection3}.')
+print(f'Первый и второй: {intersection1}, первый и третий: {intersection2}, второй и третий: {intersection3}.')
