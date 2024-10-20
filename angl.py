@@ -10,7 +10,7 @@ qwestions={
        ("вести дела", "deal dealt dealt"), ("выбирать", "choose chose chosen"), ("взрываться", "burst burst burst"),
        ("приносить", "bring brought brought"), ("кусать", "bite bit bitten"), ("бить", "beat beat beaten"),
        ("рожать, переносить", "bear bore born")]}
-for i in range(12):
+for i in range(35):
     qwestion, corect_answer = choice(qwestions[level])
     print(f'{qwestion}')
     student_answer=input().lower()
@@ -21,5 +21,5 @@ for i in range(12):
         print(f"Не правильно! Правильный ответ: {corect_answer}")
         s.append(qwestion)
 print(f"Правильно - {point}")
-if point != 12:
+if point != 35:
     print("Не правильно:", s)
