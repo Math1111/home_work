@@ -2,6 +2,7 @@
 
 from hitbox import Hitbox
 from tkinter import *
+from random import randint
 
 class Tank:
     __count = 0
@@ -10,15 +11,18 @@ class Tank:
                  file_up = '../img/tankT34_up.png',
                  file_down = '../img/tankT34_down.png',
                  file_left = '../img/tankT34_left.png',
-                 file_right = '../img/tankT34_right.png'):
-        # 2 загрузить картинки
+                 file_right = '../img/tankT34_right.png',
+
+                 bot=True):
+        self.__bot=bot
+        self.__target = None
         self.__skin_up = PhotoImage(file = file_up)
         self.__skin_down = PhotoImage(file = file_down)
         self.__skin_left = PhotoImage(file = file_left)
         self.__skin_right = PhotoImage(file = file_right)
 
         Tank.__count += 1
-        self.__hitbox = Hitbox(x, y, self.get_sise(), self.get_sise())
+        self.__hitbox = Hitbox(x, y, self.get_sise(), self.get_sise(), padding=2)
         self.__canvas = canvas
         self.__model = model
         self.__hp = 100
@@ -47,7 +51,7 @@ class Tank:
 
     def forvard(self):
         self.__vx = 0
-        self.__vy -=1
+        self.__vy = -1
         self.__canvas.itemconfig(self.__id, image = self.__skin_up)
 
 
@@ -60,7 +64,7 @@ class Tank:
 
 
     def left(self):
-        self.__vx -= 1
+        self.__vx = -1
         self.__vy = 0
         self.__canvas.itemconfig(self.__id, image = self.__skin_left)
 
@@ -71,14 +75,39 @@ class Tank:
         self.__vy = 0
         self.__canvas.itemconfig(self.__id, image = self.__skin_right)
 
-    def update(self):
-        if self.__fuel > self.__speed:
-            self.__dx = self.__vx * self.__speed
-            self.__dy = self.__vy * self.__speed
-            self.__x += self.__dx
-            self.__y += self.__dy
-            self.__update_hitbox()
-            self.__repaint()
+    def set_target(self, target):
+        self.__target = target
+
+    def _AI_goto_target(self):
+        if randint(1,2) == 1:
+            if self.__target.get_x() > self.get_x():
+                self.right()
+            else:
+                self.left()
+        else:
+            if self.__target.get_y() > self.get_y():
+                self.backward()
+            else:
+                self.forvard()
+
+
+    def __AI(self):
+        if randint(1, 30) == 1:
+            if randint(1,10) < 9 and self.__target is not None:
+                self._AI_goto_target()
+            else:
+                self.__AI_change_orientation()
+
+    def __AI_change_orientation(self):
+        rand = randint(0, 3)
+        if rand == 0:
+            self.left()
+        if rand == 1:
+            self.right()
+        if rand == 2:
+            self.forvard()
+        if rand == 3:
+            self.backward()
 
 # 3 Изменим метод __create
     def __create(self):
@@ -92,15 +121,35 @@ class Tank:
     def __update_hitbox(self):
         self.__hitbox.moveto(self.__x, self.__y)
 
-    def undo_move(self):
+    def __undo_move(self):
+        if self.__dx == 0 and self.__dy == 0:
+            return
         self.__x -= self.__dx
         self.__y -= self.__dy
-        self.__fuel += self.__speed
         self.__update_hitbox()
         self.__repaint()
+        self.__dx = 0
+        self.__dy = 0
+
+    def update(self):
+        if self.__fuel > self.__speed:
+            if self.__bot:
+                self.__AI()
+            self.__dx = self.__vx * self.__speed
+            self.__dy = self.__vy * self.__speed
+            self.__x += self.__dx
+            self.__y += self.__dy
+            self.__fuel -= self.__speed
+            self.__update_hitbox()
+            self.__repaint()
 
     def inersects(self, other_tank):
-        return self.__hitbox.intersects(other_tank.__hitbox)
+        value = self.__hitbox.intersects(other_tank.__hitbox)
+        if value:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
+        return value
 
     def get_x(self):
         return self.__x
