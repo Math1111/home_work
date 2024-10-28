@@ -110,14 +110,6 @@ class Tank:
         if rand == 3:
             self.backward()
 
-    def __check_out_of_world(self):
-        if self.__hitbox.left < 0 or \
-            self.__hitbox.top < 0 or \
-            self.__hitbox.right >= world.WIDTH or \
-            self.__hitbox.bottom >= world.HEIGHT:
-                self.__undo_move()
-        if self.__bot:
-            self.__AI_change_orientation()
 
     def __create(self):
         self.__id = self.__canvas.create_image(self.__x, self.__y,
@@ -129,6 +121,16 @@ class Tank:
 
     def __update_hitbox(self):
         self.__hitbox.moveto(self.__x, self.__y)
+
+    def __check_out_of_world(self):
+        if self.__hitbox.left < 0 or \
+            self.__hitbox.top < 0 or \
+            self.__hitbox.right >= world.WIDTH or \
+            self.__hitbox.bottom >= world.HEIGHT:
+                self.__undo_move()
+        if self.__bot:
+            self.__AI_change_orientation()
+
 
     def __undo_move(self):
         if self.__dx == 0 and self.__dy == 0:
@@ -151,6 +153,7 @@ class Tank:
             self.__x += self.__dx
             self.__y += self.__dy
             self.__fuel -= self.__speed
+            self.__check_out_of_world()
             self.__update_hitbox()
             self.__repaint()
 
