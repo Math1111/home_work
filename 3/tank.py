@@ -3,6 +3,7 @@
 from hitbox import Hitbox
 from tkinter import *
 from random import randint
+import world
 
 class Tank:
     __count = 0
@@ -109,7 +110,15 @@ class Tank:
         if rand == 3:
             self.backward()
 
-# 3 Изменим метод __create
+    def __check_out_of_world(self):
+        if self.__hitbox.left < 0 or \
+            self.__hitbox.top < 0 or \
+            self.__hitbox.right >= world.WIDTH or \
+            self.__hitbox.bottom >= world.HEIGHT:
+                self.__undo_move()
+        if self.__bot:
+            self.__AI_change_orientation()
+
     def __create(self):
         self.__id = self.__canvas.create_image(self.__x, self.__y,
                                                image = self.__skin_up,
@@ -132,9 +141,11 @@ class Tank:
         self.__dy = 0
 
     def update(self):
-        if self.__fuel > self.__speed:
+        if self.__fuel >= self.__speed:
             if self.__bot:
                 self.__AI()
+            self.__update_hitbox()
+            self.__check_out_of_world()
             self.__dx = self.__vx * self.__speed
             self.__dy = self.__vy * self.__speed
             self.__x += self.__dx
