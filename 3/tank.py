@@ -23,7 +23,7 @@ class Tank:
         self.__skin_right = PhotoImage(file = file_right)
 
         Tank.__count += 1
-        self.__hitbox = Hitbox(x, y, self.get_sise(), self.get_sise(), padding=2)
+        self.__hitbox = Hitbox(x, y, self.get_size(), self.get_size(), padding=2)
         self.__canvas = canvas
         self.__model = model
         self.__hp = 100
@@ -117,7 +117,8 @@ class Tank:
                                                anchor ='nw')
 
     def __repaint(self):
-        self.__canvas.moveto(self.__id, x = self.__x, y = self.__y)
+        self.__canvas.moveto(self.__id, x = world.get_screen_x(self.__x),
+                             y =world.get_screen_y(self.__y))
 
     def __update_hitbox(self):
         self.__hitbox.moveto(self.__x, self.__y)
@@ -127,9 +128,9 @@ class Tank:
             self.__hitbox.top < 0 or \
             self.__hitbox.right >= world.WIDTH or \
             self.__hitbox.bottom >= world.HEIGHT:
-                self.__undo_move()
-        if self.__bot:
-            self.__AI_change_orientation()
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
 
 
     def __undo_move(self):
@@ -141,6 +142,10 @@ class Tank:
         self.__repaint()
         self.__dx = 0
         self.__dy = 0
+
+    def stop(self):
+        self.__vx = 0
+        self.__vy = 0
 
     def update(self):
         if self.__fuel >= self.__speed:
@@ -192,7 +197,7 @@ class Tank:
     def grt_quantity():
         return Tank.__count
 
-    def get_sise(self):
+    def get_size(self):
         return self.__skin_up.width()
 
     def __str__(self):
