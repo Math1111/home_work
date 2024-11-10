@@ -200,6 +200,13 @@ class Tank:
     def get_size(self):
         return self.__skin_up.width()
 
+    def __del__(self):
+        print(f'удалён танк')
+        try:
+            self.__canvas.delete(self.__id)
+        except Exception:
+            pass
+
     def __str__(self):
         return (f'координаты: x = {self.__x}, y = {self.__y}, модель: {self.__model}, '
                 f'здоровье: {self.__hp}, опыт: {self.__xp}, боеприпасы: {self.__ammo}')
