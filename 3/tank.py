@@ -4,23 +4,23 @@ from hitbox import Hitbox
 from tkinter import *
 from random import randint
 import world
+import texture as skin
 
 class Tank:
     __count = 0
     # 1 в параметры объекта добавить картинки (путь до картинк)
     def __init__(self, canvas, x, y,model = 'Т-14 Армата', ammo = 100, speed = 5,
-                 file_up = '../img/tankT34_up.png',
-                 file_down = '../img/tankT34_down.png',
-                 file_left = '../img/tankT34_left.png',
-                 file_right = '../img/tankT34_right.png',
+                 #file_up = '../img/tankT34_up.png',
+                 #file_down = '../img/tankT34_down.png',
+                 #file_left = '../img/tankT34_left.png',
+                 #file_right = '../img/tankT34_right.png',
 
                  bot=True):
         self.__bot=bot
         self.__target = None
-        self.__skin_up = PhotoImage(file = file_up)
-        self.__skin_down = PhotoImage(file = file_down)
-        self.__skin_left = PhotoImage(file = file_left)
-        self.__skin_right = PhotoImage(file = file_right)
+        #self.__skin_down = PhotoImage(file = file_down)
+        #self.__skin_left = PhotoImage(file = file_left)
+        #self.__skin_right = PhotoImage(file = file_right)
 
         Tank.__count += 1
         self.__hitbox = Hitbox(x, y, self.get_size(), self.get_size(), padding=2)
@@ -53,28 +53,28 @@ class Tank:
     def forvard(self):
         self.__vx = 0
         self.__vy = -1
-        self.__canvas.itemconfig(self.__id, image = self.__skin_up)
+        self.__canvas.itemconfig(self.__id, image =skin.get('tank_up'))
 
 
 
     def backward(self):
         self.__vx = 0
         self.__vy = 1
-        self.__canvas.itemconfig(self.__id, image = self.__skin_down)
+        self.__canvas.itemconfig(self.__id, image = skin.get('tank_down'))
 
 
 
     def left(self):
         self.__vx = -1
         self.__vy = 0
-        self.__canvas.itemconfig(self.__id, image = self.__skin_left)
+        self.__canvas.itemconfig(self.__id, image = skin.get('tank_left'))
 
 
 
     def right(self):
         self.__vx = 1
         self.__vy = 0
-        self.__canvas.itemconfig(self.__id, image = self.__skin_right)
+        self.__canvas.itemconfig(self.__id, image = skin.get('tank_right'))
 
     def set_target(self, target):
         self.__target = target
@@ -113,7 +113,7 @@ class Tank:
 
     def __create(self):
         self.__id = self.__canvas.create_image(self.__x, self.__y,
-                                               image = self.__skin_up,
+                                               image = skin.get('tank_up'),
                                                anchor ='nw')
 
     def __repaint(self):
@@ -198,7 +198,7 @@ class Tank:
         return Tank.__count
 
     def get_size(self):
-        return self.__skin_up.width()
+        return skin.get('tank_up').width()
 
     def __del__(self):
         print(f'удалён танк')
