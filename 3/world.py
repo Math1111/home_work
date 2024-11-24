@@ -17,13 +17,12 @@ SCREEN_HEIGHT=800
 WIDTH=SCREEN_WIDTH*6
 HEIGHT=SCREEN_HEIGHT*4
 
-_map=None
+_map=[]
 
 def initialaze(canv):
-    global _canvas, _map
+    global _canvas
     _canvas = canv
-    _map=_Cell(_canvas,WATER,0,0)
-    #create_map(20,20)
+    create_map(20, 20)
 
 def set_camera_xy(x,y):
     global _camera_x, _camera_y
@@ -69,3 +68,16 @@ class _Cell:
 
     def get_block(self):
         return self.__block
+
+    def create_map(rows=20,cols=20):
+        global _map
+        _map=[]
+        for i in range(rows):
+            row = []
+            for j in range(cols):
+                cell=_Cell(_canvas, CONCRETE, j * BLOCK_SIZE, i * BLOCK_SIZE)
+                row.append(cell)
+            _map.append(row)
+        _map.append(_Cell(_canvas, WATER, BLOCK_SIZE * 0, 0))
+        _map.append(_Cell(_canvas, BRICK, BLOCK_SIZE * 1, 0))
+        _map.append(_Cell(_canvas, CONCRETE, BLOCK_SIZE * 2, 0))
