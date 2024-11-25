@@ -126,8 +126,8 @@ class Tank:
     def __check_out_of_world(self):
         if self.__hitbox.left < 0 or \
             self.__hitbox.top < 0 or \
-            self.__hitbox.right >= world.WIDTH or \
-            self.__hitbox.bottom >= world.HEIGHT:
+            self.__hitbox.right >= world.get_width() or \
+            self.__hitbox.bottom >= world.get_height():
             self.__undo_move()
             if self.__bot:
                 self.__AI_change_orientation()

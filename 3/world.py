@@ -2,6 +2,7 @@ import texture
 from tkinter import NW
 from random import randint, choice
 
+
 GROUND='g'
 WATER='w'
 CONCRETE='c'
@@ -48,6 +49,23 @@ def get_screen_x(world_X):
 def get_screen_y(world_Y):
     return world_Y - _camera_y
 
+def create_map(rows=20,cols=20):
+    global _map
+    _map=[]
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            block=GROUND
+            if i==0 or j==0 or i==rows-1 or j==cols-1:
+                block=CONCRETE
+            elif randint(1,100)<=5:
+                block=choice([BRICK,WATER,CONCRETE])
+            cell=_Cell(_canvas, block, j * BLOCK_SIZE, i * BLOCK_SIZE)
+            row.append(cell)
+        _map.append(row)
+    ##_map.append(_Cell(_canvas, BRICK, BLOCK_SIZE * 1, 0))
+    ##_map.append(_Cell(_canvas, CONCRETE, BLOCK_SIZE * 2, 0))
+
 class _Cell:
     def __init__(self, canvas, block, x, y):
         self.__canvas = canvas
@@ -69,15 +87,3 @@ class _Cell:
     def get_block(self):
         return self.__block
 
-    def create_map(rows=20,cols=20):
-        global _map
-        _map=[]
-        for i in range(rows):
-            row = []
-            for j in range(cols):
-                cell=_Cell(_canvas, CONCRETE, j * BLOCK_SIZE, i * BLOCK_SIZE)
-                row.append(cell)
-            _map.append(row)
-        _map.append(_Cell(_canvas, WATER, BLOCK_SIZE * 0, 0))
-        _map.append(_Cell(_canvas, BRICK, BLOCK_SIZE * 1, 0))
-        _map.append(_Cell(_canvas, CONCRETE, BLOCK_SIZE * 2, 0))
