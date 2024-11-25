@@ -25,6 +25,13 @@ def initialaze(canv):
     _canvas = canv
     create_map(20, 20)
 
+def get_width():
+    return get_cols() * BLOCK_SIZE
+
+def get_height():
+    return get_rows() * BLOCK_SIZE
+
+
 def set_camera_xy(x,y):
     global _camera_x, _camera_y
     if x<0:
@@ -32,10 +39,10 @@ def set_camera_xy(x,y):
     if y<0:
         y=0
 
-    if x>WIDTH - SCREEN_WIDTH:
-        x=WIDTH-SCREEN_WIDTH
-    if y>HEIGHT-SCREEN_HEIGHT:
-        y=HEIGHT-SCREEN_HEIGHT
+    if x>get_width - SCREEN_WIDTH:
+        x=get_width - SCREEN_WIDTH
+    if y>get_height - SCREEN_HEIGHT:
+        y=get_height - SCREEN_HEIGHT
 
     _camera_x=x
     _camera_y=y
@@ -66,6 +73,23 @@ def create_map(rows=20,cols=20):
     ##_map.append(_Cell(_canvas, BRICK, BLOCK_SIZE * 1, 0))
     ##_map.append(_Cell(_canvas, CONCRETE, BLOCK_SIZE * 2, 0))
 
+def get_rows():
+    return len(_map)
+
+def get_cols():
+    return len(_map[0])
+
+
+def update_cell(row, col):
+    if row<0 or col<0 or row>=get_rows() or col>=get_cols:
+        return
+    _map[row][col].update()
+
+def update_map():
+    for i in range(0,get_rows()):
+        for j in range(0,get_cols()):
+            update_cell(i, j)
+
 class _Cell:
     def __init__(self, canvas, block, x, y):
         self.__canvas = canvas
@@ -86,4 +110,13 @@ class _Cell:
 
     def get_block(self):
         return self.__block
+
+    def update(self):
+        if self.__block== GROUND:
+            return
+        screen_x=get_screen_x(self.__x)
+        screen_y=get_screen_y(self.__y)
+        self.__canvas.moveto(self.__id,x=screen_x,y=screen_y)
+        if self.block== GROUND:
+            return
 
