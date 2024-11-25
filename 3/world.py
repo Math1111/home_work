@@ -39,10 +39,10 @@ def set_camera_xy(x,y):
     if y<0:
         y=0
 
-    if x>get_width - SCREEN_WIDTH:
-        x=get_width - SCREEN_WIDTH
-    if y>get_height - SCREEN_HEIGHT:
-        y=get_height - SCREEN_HEIGHT
+    if x>get_width() - SCREEN_WIDTH:
+        x=get_width() - SCREEN_WIDTH
+    if y>get_height() - SCREEN_HEIGHT:
+        y=get_height() - SCREEN_HEIGHT
 
     _camera_x=x
     _camera_y=y
@@ -65,7 +65,7 @@ def create_map(rows=20,cols=20):
             block=GROUND
             if i==0 or j==0 or i==rows-1 or j==cols-1:
                 block=CONCRETE
-            elif randint(1,100)<=5:
+            elif randint(1,100)<=15:
                 block=choice([BRICK,WATER,CONCRETE])
             cell=_Cell(_canvas, block, j * BLOCK_SIZE, i * BLOCK_SIZE)
             row.append(cell)
@@ -81,7 +81,7 @@ def get_cols():
 
 
 def update_cell(row, col):
-    if row<0 or col<0 or row>=get_rows() or col>=get_cols:
+    if row<0 or col<0 or row>=get_rows() or col>=get_cols():
         return
     _map[row][col].update()
 
@@ -117,6 +117,5 @@ class _Cell:
         screen_x=get_screen_x(self.__x)
         screen_y=get_screen_y(self.__y)
         self.__canvas.moveto(self.__id,x=screen_x,y=screen_y)
-        if self.block== GROUND:
-            return
+
 
