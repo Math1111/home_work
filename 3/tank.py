@@ -76,6 +76,13 @@ class Tank:
         self.__vy = 0
         self.__canvas.itemconfig(self.__id, image = skin.get('tank_right'))
 
+    def check_map_collision(self):
+        result=self.__hitbox.check_map_collision()
+        if result:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
+
     def set_target(self, target):
         self.__target = target
 
@@ -160,6 +167,7 @@ class Tank:
             self.__fuel -= self.__speed
             self.__check_out_of_world()
             self.__update_hitbox()
+            self.check_map_collision()
             self.__repaint()
 
     def inersects(self, other_tank):
