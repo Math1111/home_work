@@ -41,9 +41,17 @@ class Tank:
             self.__x = 0
         if self.__y < 0:
             self.__y = 0
+        self.__usual_speed=speed
+        self.__water_speed=speed/2
 
         self.__create()
         self.right()
+
+    def __set_usual_speed(self):
+        self.__speed=self.__usual_speed
+
+    def __set_water_speed(self):
+        self.__speed=self.__water_speed
 
     def fire(self):
         if self.__ammo > 0:
@@ -77,11 +85,16 @@ class Tank:
         self.__canvas.itemconfig(self.__id, image = skin.get('tank_right'))
 
     def check_map_collision(self):
-        result=self.__hitbox.check_map_collision()
+        details={}
+        self.__set_usual_speed()
+        result = self.__hitbox.check_map_collision(details)
         if result:
-            self.__undo_move()
-            if self.__bot:
-                self.__AI_change_orientation()
+            if world.WATER in details and len(details)==1:
+                self.__set_water_speed()
+            else:
+                self.__undo_move()
+                if self.__bot:
+                    self.__AI_change_orientation()
 
     def set_target(self, target):
         self.__target = target
