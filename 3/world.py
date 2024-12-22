@@ -143,7 +143,7 @@ def initialaze(canvas):
     _canvas = canvas
 
     #create_map(20, 20)
-    load_map("../map/2.tmap")
+    load_map("../map/3.tmap")
 
 def destroy(row, col):
     if row<1 or col<1 or row>=get_rows()-1 or col>=get_cols()-1:
