@@ -10,7 +10,7 @@ def initialize(canv):
     _canvas = canv
 
     spawn(False)
-    for i in range(5):
+    for i in range(2):
         spawn(True).set_target(get_player())
 
     print(_tanks)
