@@ -29,7 +29,7 @@ class Tank:
         self.__hp = 100
         self.__xp = 0
         self.__ammo = ammo
-        self.__fuel = 10000                                                                        1
+        self.__fuel = 10000
         self.__speed = speed
         self.__x = x
         self.__y = y

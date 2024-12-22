@@ -46,7 +46,7 @@ def key_press(event):
     #if event.keycode == KEY_RIGHT:
         #world.move_camera(5,0)
     if event.keycode == 32:
-        tanks_collection.spawn_enemy()
+        tanks_collection.spawn()
 
 def load_textures():
     texture.load('tank_up',
