@@ -84,17 +84,32 @@ class Tank:
         self.__vy = 0
         self.__canvas.itemconfig(self.__id, image = skin.get('tank_right'))
 
+    def __take_ammo(self):
+        self.__ammo+=10
+        if self.__ammo > 100:
+            self.__ammo = 100
+
+    def __on_map_collision(self, details):
+        if world.WATER in details and len(details)==1:
+            self.__set_water_speed()
+        elif world.MISSLE in details:
+            pos=details[world.MISSLE]
+            if world.take(pos['row'], pos['col'])!=world.AIR:
+                self.__take_ammo()
+        else:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
+        if world.BRICK in details:
+            pos=details[world.BRICK]
+            world.destroy(pos['row'], pos['col'])
+
     def check_map_collision(self):
         details={}
         self.__set_usual_speed()
         result = self.__hitbox.check_map_collision(details)
         if result:
-            if world.WATER in details and len(details)==1:
-                self.__set_water_speed()
-            else:
-                self.__undo_move()
-                if self.__bot:
-                    self.__AI_change_orientation()
+            self.__on_map_collision(details)
 
     def set_target(self, target):
         self.__target = target

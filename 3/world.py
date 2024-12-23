@@ -17,6 +17,8 @@ _camera_y = 0
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 
+MISSLE = 'm'
+
 _map = []
 
 AIR = 'a'
@@ -150,6 +152,11 @@ def destroy(row, col):
         return False
     return _map[row][col].destroy()
 
+def take(row, col):
+    if _inside_of_map(row, col):
+        return _map[row][col].take()
+    return AIR
+
 class _Cell:
     def __init__(self, canvas, block, x, y):
         self.__canvas = canvas
@@ -183,6 +190,14 @@ class _Cell:
             self.__canvas.delete(self.__id)
         except:
             pass
+
+    def take(self):
+        block=self.get_block()
+        if block==MISSLE:
+            self.set_block(GROUND)
+            return block
+        else:
+            return AIR
 
     def __del__(self):
         self.__delete_element()
