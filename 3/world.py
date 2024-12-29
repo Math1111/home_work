@@ -203,8 +203,8 @@ class _Cell:
         self.__delete_element()
 
     def destroy(self):
-        if self.get_block()==BRICK:
-            self.set_block(GROUND)
+        if self.get_block()==BRICK:#
+            #self.set_block(GROUND)
             return True
         return False
 
