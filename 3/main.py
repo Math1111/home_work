@@ -29,7 +29,7 @@ def update():
 def key_press(event):
     player=tanks_collection.get_player()
     if event.keycode == KEY_W:
-        player.forvard()
+        player.forward()
     if event.keycode == KEY_S:
         player.backward()
     if event.keycode == KEY_A:
@@ -57,6 +57,11 @@ def load_textures():
                  '../img/tankT34_left.png')
     texture.load("tank_right",
                  '../img/tankT34_right.png')
+
+    texture.load('tank_down_player', '../img/tank_down_player.png')
+    texture.load("tank_up_player", '../img/tank_up_player.png')
+    texture.load("tank_left_player", '../img/tank_left_player.png')
+    texture.load("tank_right_player", '../img/tank_right_player.png')
 
     texture.load(world.BRICK, "../img/brick.png")
     texture.load(world.WATER, "../img/water.png")
