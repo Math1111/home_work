@@ -194,7 +194,7 @@ class Tank(Unit):
     def _set_usual_speed(self):
         self._speed = self._usual_speed
 
-    def set_water_speed(self):
+    def _set_water_speed(self):
         self._speed = self._water_speed
 
     def _on_map_collision(self, details):
