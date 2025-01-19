@@ -1,3 +1,5 @@
+
+import missiles_collection
 from tank import Tank
 from tkinter import*
 import world
@@ -13,10 +15,13 @@ KEY_W=87
 KEY_S=83
 KEY_A=65
 KEY_D=68
+
 FPS=60
+
 
 def update():
     tanks_collection.update()#####
+    missiles_collection.update()
     player=tanks_collection.get_player()
     world.set_camera_xy(player.get_x()-world.SCREEN_WIDTH//2+player.get_size()//2,
                         player.get_y()-world.SCREEN_HEIGHT//2+player.get_size()//2)
@@ -46,7 +51,7 @@ def key_press(event):
     #if event.keycode == KEY_RIGHT:
         #world.move_camera(5,0)
     if event.keycode == 32:
-        tanks_collection.spawn()
+        player.fire()
 
 def load_textures():
     texture.load('tank_up',
@@ -63,6 +68,11 @@ def load_textures():
     texture.load("tank_left_player", '../img/tank_left_player.png')
     texture.load("tank_right_player", '../img/tank_right_player.png')
 
+    texture.load('missile_up', '../img/missile_up.png')
+    texture.load("missile_down", '../img/missile_down.png')
+    texture.load("missile_left", '../img/missile_left.png')
+    texture.load("missile_right", '../img/missile_right.png')
+
     texture.load(world.BRICK, "../img/brick.png")
     texture.load(world.WATER, "../img/water.png")
     texture.load(world.CONCRETE, "../img/wall.png")
@@ -75,6 +85,7 @@ canv=Canvas(w, width=world.SCREEN_WIDTH, height=world.SCREEN_HEIGHT, bg='#8ccb5e
 canv.pack()
 world.initialaze(canv)
 tanks_collection.initialize(canv)
+missiles_collection.initialize(canv)
 w.bind('<KeyPress>', key_press)
 update()
 w.mainloop()

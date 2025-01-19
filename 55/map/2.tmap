@@ -1,0 +1,5 @@
+cccccccc
+cwggggwc
+cggggggc
+cbggggbc
+cccccccc
