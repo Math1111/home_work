@@ -7,6 +7,7 @@ import missiles_collection
 
 class Unit:
     def __init__(self, canvas, x, y, speed, padding, bot, default_image):
+        self._destroyed = False
         self._canvas = canvas
         self._x = x
         self._y = y
@@ -25,6 +26,19 @@ class Unit:
         self._backward_image = default_image
 
         self._create()
+
+    def damage(self, value):
+        self._hp -= value
+        if self._hp <= 0:
+            self.destroy()
+
+    def is_destroyed(self):  ###
+        return self._destroyed
+
+    def destroy(self):  ###
+        self._destroyed = True
+        self.stop()
+        self._speed = 0
 
     def _create(self):
         self._id = self._canvas.create_image(self._x, self._y, image=skin.get(self._default_image), anchor=NW)
@@ -179,6 +193,10 @@ class Tank(Unit):
                 self._AI_goto_target()
             else:
                 self._change_orientation()
+        elif randint(1,30)==1:
+            self._AI_fire()
+        elif randint(1,100)==1:
+            self.fire()
 
     def fire(self):
         if self._ammo > 0:
@@ -218,6 +236,38 @@ class Tank(Unit):
         if self._bot:
             self._change_orientation()
 
+    def _AI_fire(self):
+        if self._target is None:
+            return
+
+        center_x=self.get_x() + self.get_size()//2
+        center_y=self.get_y() + self.get_size()//2
+
+        target_center_x=self._target.get_x() + self._target.get_size()//2
+        target_center_y=self._target.get_y() + self._target.get_size()//2
+
+        row=world.get_row(center_y)
+        col=world.get_col(center_x)
+
+        row_target = world.get_row(target_center_y)
+        col_target = world.get_col(target_center_x)
+
+        if row == row_target:
+            if col > col_target:
+                self.left()
+                self.fire()
+            else:
+                self.right()
+                self.fire()
+
+        elif col == col_target:
+            if row_target<row:
+                self.forward()
+                self.fire()
+            else:
+                self.backward()
+                self.fire()
+
 class Missile(Unit):
     def __init__(self, canvas, owner):
         super().__init__(canvas, owner.get_x(), owner.get_y(),6,20,False,'missile_up')
@@ -239,6 +289,21 @@ class Missile(Unit):
 
         self._x+=owner.get_vx()*self.get_size()//2
         self._y+=owner.get_vy()*self.get_size()//2
+        self._hitbox.set_blacklist([world.CONCRETE, world.BRICK])
+
+    def get_owner(self):
+        return self._owner
+
+    def _on_map_collision(self, details):
+        if world.BRICK in details:
+            row = details[world.BRICK]['row']
+            col = details[world.BRICK]['col']
+            world.destroy(row, col)
+            self.destroy()
+
+        if world.CONCRETE in details:
+            self.destroy()
+
 
 
 
