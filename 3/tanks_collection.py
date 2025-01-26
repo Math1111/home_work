@@ -49,5 +49,3 @@ def spawn(is_bot=True):
         if not check_collision(t):
             _tanks.append(t)
             return t
-
-
