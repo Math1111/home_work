@@ -58,31 +58,7 @@ class Tank:
             self.__ammo -= 1
             print('стреляю')
 
-    def forvard(self):
-        self.__vx = 0
-        self.__vy = -1
-        self.__canvas.itemconfig(self.__id, image =skin.get('tank_up'))
 
-
-
-    def backward(self):
-        self.__vx = 0
-        self.__vy = 1
-        self.__canvas.itemconfig(self.__id, image = skin.get('tank_down'))
-
-
-
-    def left(self):
-        self.__vx = -1
-        self.__vy = 0
-        self.__canvas.itemconfig(self.__id, image = skin.get('tank_left'))
-
-
-
-    def right(self):
-        self.__vx = 1
-        self.__vy = 0
-        self.__canvas.itemconfig(self.__id, image = skin.get('tank_right'))
 
     def __take_ammo(self):
         self.__ammo+=10

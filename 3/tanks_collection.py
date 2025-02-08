@@ -22,6 +22,7 @@ def initialize(canv):
     enemy=spawn(True).set_target(player)
     spawn(True).set_target(player)
 
+
     id_screen_text = _canvas.create_text(10,10,text=_get_screen_text(),font=('TkDefaultFont',20),fill='white',anchor=NW)
 
 def _get_screen_text():
@@ -43,7 +44,8 @@ def update():
     start=len(_tanks)-1
     for i in range(start,-1,-1):
         if _tanks[i].is_destroyed() and i!=0:
-            del _tanks[i]
+            #del _tanks[i]
+            print(5)
         else:
             _tanks[i].update()
             check_collision(_tanks[i])

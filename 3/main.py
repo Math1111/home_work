@@ -77,6 +77,13 @@ def load_textures():
     texture.load("missile_left", '../img/missile_left.png')
     texture.load("missile_right", '../img/missile_right.png')
 
+    texture.load('xp_0', '../img/0.png')
+    texture.load('xp_25', '../img/25.png')
+    texture.load('xp_50', '../img/50.png')
+    texture.load('xp_75', '../img/75.png')
+    texture.load('xp_100', '../img/100.png')
+
+
     texture.load(world.BRICK, "../img/brick.png")
     texture.load(world.WATER, "../img/water.png")
     texture.load(world.CONCRETE, "../img/wall.png")

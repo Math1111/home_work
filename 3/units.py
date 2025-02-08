@@ -24,6 +24,7 @@ class Unit:
         self._right_image = default_image
         self._forward_image = default_image
         self._backward_image = default_image
+        self._canvas = canvas
 
         self._create()
 
@@ -31,6 +32,15 @@ class Unit:
         self._hp -= value
         if self._hp <= 0:
             self.destroy()
+            if self._bot:
+                pass
+                #self._id = self._canvas.create_image(self._x+64, self._y+64,
+                                                 #image=skin.get('tank_lose'))
+            else:
+                self._id = self._canvas.create_image(self._x, self._y,
+                                                     image=skin.get('tank_lose'))
+
+
 
     def is_destroyed(self):  ###
         return self._destroyed
@@ -41,13 +51,32 @@ class Unit:
         self._destroyed = True
         self.stop()
         self._speed = 0
-        if self._hp==0:
-            self._id = self._canvas.create_image(self._x, self._y,
-                                                 image=skin.get('tank_lose'))
+        #if self._hp==0:
+            #self._id = self._canvas.create_image(self._x, self._y,
+                                                 #image=skin.get('tank_lose'))
 
             #self._id = self._canvas.create_image(self._x, self._y,
                                                  #image=skin.get('tank_lose'),
                                                  #anchor='nw')
+    def forvard(self):
+        self._vx = 0
+        self._vy = -1
+        self._canvas.itemconfig(self._id, image =skin.get('tank_up'))
+
+    def backward(self):
+        self._vx = 0
+        self._vy = 1
+        self._canvas.itemconfig(self._id, image = skin.get('tank_down'))
+
+    def left(self):
+        self._vx = -1
+        self._vy = 0
+        self._canvas.itemconfig(self._id, image = skin.get('tank_left'))
+
+    def right(self):
+        self._vx = 1
+        self._vy = 0
+        self._canvas.itemconfig(self._id, image = skin.get('tank_right'))
 
     def _create(self):
         self._id = self._canvas.create_image(self._x, self._y, image=skin.get(self._default_image), anchor=NW)
@@ -62,18 +91,23 @@ class Unit:
         self._vx = 0
         self._vy = -1
         self._canvas.itemconfig(self._id, image=skin.get(self._forward_image))
+
+
     def backward(self):
         self._vx = 0
         self._vy = 1
         self._canvas.itemconfig(self._id, image=skin.get(self._backward_image))
+
     def left(self):
         self._vx = -1
         self._vy = 0
         self._canvas.itemconfig(self._id, image=skin.get(self._left_image))
+
     def right(self):
         self._vx = 1
         self._vy = 0
         self._canvas.itemconfig(self._id, image=skin.get(self._right_image))
+
     def stop(self):
         self._vx = 0
         self._vy = 0
@@ -246,6 +280,8 @@ class Tank(Unit):
             self._change_orientation()
 
     def _AI_fire(self):
+
+
         if self._target is None:
             return
 
