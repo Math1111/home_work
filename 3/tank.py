@@ -7,7 +7,7 @@ import world
 import texture as skin
 
 class Tank:
-    __count = 0
+    __count = 3
     # 1 в параметры объекта добавить картинки (путь до картинк)
     def __init__(self, canvas, x, y,model = 'Т-14 Армата', ammo = 100, speed = 5,
                  #file_up = '../img/tankT34_up.png',

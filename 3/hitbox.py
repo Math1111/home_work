@@ -28,7 +28,7 @@ class Hitbox:
             if block in self.__black_list:
                 details[block]={'row':row, 'col':col}
                 collision= True
-                print(details)
+                #print(details)
         return collision
 
 
