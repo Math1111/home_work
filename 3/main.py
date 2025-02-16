@@ -17,6 +17,7 @@ KEY_A=65
 KEY_D=68
 
 FPS=60
+KEY_F = 69
 
 
 def update():
@@ -37,14 +38,16 @@ def key_press(event):
     if player.is_destroyed():
         return
 
-    if event.keycode == KEY_W:
+    elif event.keycode == KEY_W:
         player.forward()
-    if event.keycode == KEY_S:
+    elif event.keycode == KEY_S:
         player.backward()
-    if event.keycode == KEY_A:
+    elif event.keycode == KEY_A:
         player.left()
-    if event.keycode == KEY_D:
+    elif event.keycode == KEY_D:
         player.right()
+    elif event.keycode == KEY_F:
+        tanks_collection.spawn()
 
     #if event.keycode == KEY_UP:
         #world.move_camera(0,-5)
@@ -54,7 +57,7 @@ def key_press(event):
         #world.move_camera(-5,0)
     #if event.keycode == KEY_RIGHT:
         #world.move_camera(5,0)
-    if event.keycode == 32:
+    elif event.keycode == 32:
         player.fire()
 
 def load_textures():

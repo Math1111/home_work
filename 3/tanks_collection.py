@@ -23,6 +23,8 @@ def initialize(canv):
     spawn(True).set_target(player)
 
 
+
+
     id_screen_text = _canvas.create_text(10,10,text=_get_screen_text(),font=('TkDefaultFont',20),fill='white',anchor=NW)
 
 def _get_screen_text():
@@ -38,6 +40,9 @@ def _update_screen_text():
 
 def get_player():
     return _tanks[0]
+
+
+
 
 def update():
     _update_screen_text()
