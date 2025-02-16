@@ -1,7 +1,7 @@
 import world
 import texture as skin
 from hitbox import Hitbox
-from tkinter import NW
+from tkinter import *
 from random import randint
 import missiles_collection
 

@@ -29,9 +29,10 @@ def _get_screen_text():
 
     if get_player().is_destroyed():
         return 'Потрачено'
+
     if len(_tanks)==1:
         return 'Вы победили!'
-    return 'Осталось {}'.format(len(_tanks)-1)
+    #return 'Осталось {}'.format(len(_tanks)-1)
 
 def _update_screen_text():
     _canvas.itemconfig(id_screen_text,text=_get_screen_text())
