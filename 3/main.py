@@ -17,7 +17,7 @@ KEY_A=65
 KEY_D=68
 
 FPS=60
-KEY_F = 69
+KEY_E = 69
 
 
 def update():
