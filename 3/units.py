@@ -25,8 +25,37 @@ class Unit:
         self._forward_image = default_image
         self._backward_image = default_image
         self._canvas = canvas
-
+        self._id = None  # Добавлено: идентификатор объекта на холсте
+        self._hp_bar = None
         self._create()
+
+    #def _create(self):
+        #self._id = self._canvas.create_image(self._x, self._y, image=skin.get(self._default_image), anchor=NW)
+        #if isinstance(self, Tank):  # Создаём полоску HP только для танков
+            #self._hp_bar = self._canvas.create_rectangle(
+                #self._x, self._y-10, self._x + world.BLOCK_SIZE, self._y - 5,
+                #fill='green', outline='black')
+    def _create(self):
+        self._id = self._canvas.create_image(self._x, self._y, image=skin.get(self._default_image), anchor=NW)
+        if isinstance(self, Tank):
+            self._hp_bar = self._canvas.create_rectangle(
+                self._x + 30, self._y + world.BLOCK_SIZE - 40,
+                self._x + world.BLOCK_SIZE - 40, self._y + world.BLOCK_SIZE - 30,
+                fill='green', outline='black')
+
+    #def _update_hp_bar(self):
+        #if isinstance(self, Tank) and self._hp_bar:
+            #width = max(1, (self._hp / 100) * world.BLOCK_SIZE)
+            #self._canvas.coords(self._hp_bar, self._x, self._y - 10, self._x + width, self._y - 5)
+            #self._canvas.itemconfig(self._hp_bar, fill='red' if self._hp < 50 else 'green')
+    def _update_hp_bar(self):
+        if isinstance(self, Tank) and self._hp_bar:
+            width = max(1, (self._hp / 100) * (world.BLOCK_SIZE - 10))
+            self._canvas.coords(self._hp_bar,
+                                self._x + 30, self._y + world.BLOCK_SIZE - 40,
+
+                                self._x + 40 + width, self._y + world.BLOCK_SIZE - 30)
+            self._canvas.itemconfig(self._hp_bar, fill='red' if self._hp < 33 else 'yellow' if self._hp < 66 else 'green')
 
     def damage(self, value):
         self._hp -= value
@@ -39,7 +68,7 @@ class Unit:
             else:
                 self._id = self._canvas.create_image(self._x, self._y,
                                                      image=skin.get('tank_lose'))
-
+        self._update_hp_bar()
 
 
     def is_destroyed(self):  ###
@@ -51,6 +80,8 @@ class Unit:
         self._destroyed = True
         self.stop()
         self._speed = 0
+        self._canvas.delete(self._id)
+        self._canvas.delete(self._hp_bar)
         #if self._hp==0:
             #self._id = self._canvas.create_image(self._x, self._y,
                                                  #image=skin.get('tank_lose'))
@@ -78,8 +109,6 @@ class Unit:
         self._vy = 0
         self._canvas.itemconfig(self._id, image = skin.get('tank_right'))
 
-    def _create(self):
-        self._id = self._canvas.create_image(self._x, self._y, image=skin.get(self._default_image), anchor=NW)
 
     def __del__(self):
         try:
@@ -122,6 +151,7 @@ class Unit:
         self._update_hitbox()
         self._check_map_collision()
         self._repaint()
+        self._update_hp_bar()
 
     def _AI(self):
         pass
@@ -336,7 +366,7 @@ class Missile(Unit):
         self._x+=owner.get_vx()*self.get_size()//2
         self._y+=owner.get_vy()*self.get_size()//2
         self._hitbox.set_blacklist([world.CONCRETE, world.BRICK])
-
+        self._hp_bar = None
     def get_owner(self):
         return self._owner
 
@@ -348,6 +378,11 @@ class Missile(Unit):
             self.destroy()
 
         if world.CONCRETE in details:
+            self.destroy()
+
+    def _on_intersects(self, other_unit):
+        if isinstance(other_unit, Tank):
+            other_unit.damage(12.5)  # Добавлено: урон по танку от ракеты
             self.destroy()
 
 

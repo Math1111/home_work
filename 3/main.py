@@ -46,8 +46,9 @@ def key_press(event):
         player.left()
     elif event.keycode == KEY_D:
         player.right()
-    elif event.keycode == KEY_F:
+    elif event.keycode == KEY_E:
         tanks_collection.spawn()
+
 
     #if event.keycode == KEY_UP:
         #world.move_camera(0,-5)
