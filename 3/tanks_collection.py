@@ -31,13 +31,14 @@ def initialize(canv):
     return id_screen_text
 
 def _get_screen_text():
-    global remaining_tanks
-    if remaining_tanks == 0:
-        return 'Вы проиграли!'
-    elif remaining_tanks == 1:
-        return 'Вы победили!'
-    else:
-        return f'Осталось {remaining_tanks}'
+    pass
+    #global remaining_tanks
+    #if remaining_tanks == 0:
+        #return 'Вы проиграли!'
+    #elif remaining_tanks == 1:
+        #return 'Вы победили!'
+   # else:
+        #return f'Осталось {remaining_tanks}'
 
 
 def update_screen_text(canv, id_screen_text):
