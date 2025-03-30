@@ -49,6 +49,7 @@ def key_press(event):
     elif event.keycode == KEY_E:
         tanks_collection.spawn()
 
+
     #if event.keycode == KEY_UP:
         #world.move_camera(0,-5)
     #if event.keycode == KEY_DOWN:
