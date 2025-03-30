@@ -47,17 +47,12 @@ class Unit:
 
 
 
+
     def destroy(self):  ###
         self._destroyed = True
         self.stop()
         self._speed = 0
-        #if self._hp==0:
-            #self._id = self._canvas.create_image(self._x, self._y,
-                                                 #image=skin.get('tank_lose'))
 
-            #self._id = self._canvas.create_image(self._x, self._y,
-                                                 #image=skin.get('tank_lose'),
-                                                 #anchor='nw')
     def forvard(self):
         self._vx = 0
         self._vy = -1
