@@ -81,14 +81,12 @@ class Unit:
         self._destroyed = True
         self.stop()
         self._speed = 0
-<<<<<<< HEAD
-=======
         self._canvas.delete(self._id)
         self._canvas.delete(self._hp_bar)
         #if self._hp==0:
             #self._id = self._canvas.create_image(self._x, self._y,
                                                  #image=skin.get('tank_lose'))
->>>>>>> 08856e40515517ffd10a475839c0ce2322a98778
+
 
     def forvard(self):
         self._vx = 0
